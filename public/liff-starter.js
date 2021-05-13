@@ -72,6 +72,11 @@ function initializeApp() {
     // check if the user is logged in/out, and disable inappropriate button
     if (liff.isLoggedIn()) {
         document.getElementById('liffLoginButton').disabled = true;
+        document.getElementById("isLoggedInArea").classList.remove('hidden');
+        showProfile();
+        if (liff.isInClient()) {
+            document.getElementById("openLineAppButton").classList.add('hidden');
+        }
     } else {
         document.getElementById('liffLogoutButton').disabled = true;
     }
@@ -103,14 +108,32 @@ function displayIsInClientInfo() {
     }
 }
 
+function showProfile() {
+    liff.getProfile().then(function(profile) {
+        document.getElementById('welcomeMessage').textContent = 'ようこそ、' + profile.displayName + 'さん';
+
+        const profilePictureDiv = document.getElementById('profilePictureDiv');
+        if (profilePictureDiv.firstElementChild) {
+            profilePictureDiv.removeChild(profilePictureDiv.firstElementChild);
+        }
+        const img = document.createElement('img');
+        img.src = profile.pictureUrl;
+        img.alt = 'Profile Picture';
+        profilePictureDiv.appendChild(img);
+
+    }).catch(function(error) {
+        window.alert('Error getting profile: ' + error);
+    });
+}
+
 /**
 * Register event handlers for the buttons displayed in the app
 */
 function registerButtonHandlers() {
     // openWindow call
-    document.getElementById('openWindowButton').addEventListener('click', function() {
+    document.getElementById('openLineAppButton').addEventListener('click', function() {
         liff.openWindow({
-            url: 'https://line.me',
+            url: 'https://line.me/R/ti/p/%40824hxbnn',
             external: true
         });
     });
