@@ -1,4 +1,7 @@
 window.onload = function() {
+    const params = (new URL(document.location)).searchParams;
+    document.getElementById('tokenString').textContent = params.get('token');
+
     const useNodeJS = true;   // if you are not using a node server, set this value to false
     const defaultLiffId = "";   // change the default LIFF value if you are not using a node server
 
@@ -189,7 +192,12 @@ function registerButtonHandlers() {
     document.getElementById('liffLoginButton').addEventListener('click', function() {
         if (!liff.isLoggedIn()) {
             // set `redirectUri` to redirect the user to a URL other than the front page of your LIFF app.
-            liff.login();
+
+            // ここでredirectを指定して、パラメータを付けておけば
+            // 友だち追加されたアカウントを識別できる。
+            // see: https://developers.line.biz/ja/reference/liff/#login-arguments
+            // see: https://developers.line.biz/ja/docs/liff/developing-liff-apps/#url-validation
+            liff.login({ redirectUri: "https://liff-sample-3qgj8c4acrpip6mi.herokuapp.com/?token=xxxxxxxxxxxxxxxxxx" });
         }
     });
 
