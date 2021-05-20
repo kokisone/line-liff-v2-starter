@@ -111,6 +111,7 @@ function displayIsInClientInfo() {
 function showProfile() {
     liff.getProfile().then(function(profile) {
         document.getElementById('welcomeMessage').textContent = 'ようこそ、' + profile.displayName + 'さん';
+        document.getElementById('userIdField').textContent = profile.userId;
 
         const profilePictureDiv = document.getElementById('profilePictureDiv');
         if (profilePictureDiv.firstElementChild) {
